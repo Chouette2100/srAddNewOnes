@@ -38,7 +38,7 @@ import (
 	"github.com/Chouette2100/srdblib"
 )
 
-const Version = "00AC00"
+const Version = "00AC00a"
 
 /*
 データ取得範囲に新しく加わったルームをデータ取得対象とします。
@@ -49,6 +49,7 @@ const Version = "00AC00"
 Ver.00AA00 新規作成
 Ver.00AB00 ブロックイベント、イベントボックスの親イベントは処理の対象外とする。
 Ver.00AC00 ブロックイベントの場合の独自処理を必要最小限にする。
+Ver.00AC00aリンクしているsrdblibがv1.1.1となる（ジャンル名の変換規則の変更）
 */
 
 func main() {
