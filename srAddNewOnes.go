@@ -50,6 +50,7 @@ Ver.00AA00 新規作成
 Ver.00AB00 ブロックイベント、イベントボックスの親イベントは処理の対象外とする。
 Ver.00AC00 ブロックイベントの場合の独自処理を必要最小限にする。
 Ver.00AC00aリンクしているsrdblibがv1.1.1となる（ジャンル名の変換規則の変更）
+Ver.00AD00 	srdblib.SelectFromEvent()の仕様変更に対応する。
 */
 
 func main() {
@@ -117,7 +118,7 @@ func main() {
 				デバッグ時	コメント	*/
 
 		//	イベント情報を取得する。
-		eventinf, err = srdblib.SelectFromEvent(event.Event_ID)
+		eventinf, err = srdblib.SelectFromEvent("event", event.Event_ID)
 		if err != nil {
 			log.Printf("SelectEventInf() returned error. %v", err)
 			continue
