@@ -38,9 +38,11 @@ func SelectNoOfRooms(eventinf *exsrapi.Event_Inf) (
 		//	指定した範囲の順位のルームが存在しない。
 		zrooms := 0
 		sqls2 := "select count(*) from showroom.points "
-		sqls2 += " where eventid = ?  and `rank` = 0 "
+		//	sqls2 += " where eventid = ?  and `rank` = 0 "
+		sqls2 += " where eventid = ?  and `rank` between ? and ? "
 		sqls2 += " and ts = (select max(ts) from showroom.points where eventid = ? )"
-		srdblib.Db.QueryRow(sqls2, eventid, eventid).Scan(&zrooms)
+		//	srdblib.Db.QueryRow(sqls2, eventid, eventid).Scan(&zrooms)
+		srdblib.Db.QueryRow(sqls2, eventid, ib, ie, eventid).Scan(&zrooms)
 
 		if zrooms != 0 {
 			//	順位が0のルームが存在するからこのイベントはランキングがないイベントである。

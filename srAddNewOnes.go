@@ -26,6 +26,9 @@ import (
 	//	"database/sql"
 	//	_ "github.com/go-sql-driver/mysql"
 
+	"github.com/go-gorp/gorp"
+
+
 	//	"github.com/PuerkitoBio/goquery"
 
 	//	svg "github.com/ajstarks/svgo/float"
@@ -38,8 +41,6 @@ import (
 	"github.com/Chouette2100/srdblib"
 )
 
-const Version = "00AC00a"
-
 /*
 データ取得範囲に新しく加わったルームをデータ取得対象とします。
 
@@ -51,7 +52,10 @@ Ver.00AB00 ブロックイベント、イベントボックスの親イベント
 Ver.00AC00 ブロックイベントの場合の独自処理を必要最小限にする。
 Ver.00AC00aリンクしているsrdblibがv1.1.1となる（ジャンル名の変換規則の変更）
 Ver.00AD00 	srdblib.SelectFromEvent()の仕様変更に対応する。
+Ver.00AE00 	gorpを導入する。
 */
+
+const Version = "00AE00"
 
 func main() {
 
@@ -79,6 +83,11 @@ func main() {
 		defer srdblib.Dialer.Close()
 	}
 	defer srdblib.Db.Close()
+
+	dial := gorp.MySQLDialect{Engine: "InnoDB", Encoding: "utf8mb4"}
+	srdblib.Dbmap = &gorp.DbMap{Db: srdblib.Db, Dialect: dial, ExpandSliceArgs: true}
+	srdblib.Dbmap.AddTableWithName(srdblib.User{}, "user").SetKeys(false, "Userno")
+
 	log.Printf("********** Dbhost=<%s> Dbname = <%s> Dbuser = <%s> Dbpw = <%s>\n",
 		(*dbconfig).DBhost, (*dbconfig).DBname, (*dbconfig).DBuser, (*dbconfig).DBpswd)
 
